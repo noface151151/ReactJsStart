@@ -1,5 +1,6 @@
 import XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import WriteLog from "../../Service/WriteLog";
 
 /**
  * Khởi tạo một workbook mới
@@ -137,12 +138,16 @@ const ExportExcel = (fimeName, workbook, worksheet, range, SheetName) => {
  * Chuyển file Excel sang Json
  * @param {binary} Filebinary 
  */
-const ConvertExcelToJson = Filebinary => {
+const ConvertExcelToJson = (Filebinary, sheetName) => {
   var workbook = XLSX.read(Filebinary, { type: "binary" });
   var sheet_name_list = workbook.SheetNames;
-  return XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]], {
-    raw: true
-  });
+  const index = sheet_name_list.indexOf(sheetName);
+  const result = XLSX.utils.sheet_to_json(
+    workbook.Sheets[sheet_name_list[index]],
+    { raw: true }
+  );
+  WriteLog(result);
+  return result;
 };
 
 /**
