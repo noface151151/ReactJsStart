@@ -137,11 +137,15 @@ const ExportExcel = (fimeName, workbook, worksheet, range, SheetName) => {
 /**
  * Chuyển file Excel sang Json
  * @param {binary} Filebinary 
+ * @param {string} sheetName nếu truyền null thì sẽ lấy sheet đầu tiên
  */
 const ConvertExcelToJson = (Filebinary, sheetName) => {
   var workbook = XLSX.read(Filebinary, { type: "binary" });
   var sheet_name_list = workbook.SheetNames;
-  const index = sheet_name_list.indexOf(sheetName);
+  const index =
+    sheetName === null || typeof sheetName === "undefined"
+      ? 0
+      : sheet_name_list.indexOf(sheetName);
   const result = XLSX.utils.sheet_to_json(
     workbook.Sheets[sheet_name_list[index]],
     { raw: true }
