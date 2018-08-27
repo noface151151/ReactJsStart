@@ -1,21 +1,40 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Route, Switch, withRouter, Redirect, Link } from "react-router-dom";
+
+import Login from "./Pages/Login";
+import NotRequiredAuth from "./Pages/NotRequiredAuth";
+import RequiredAuth from "./Pages/RequiredAuth";
+import NotFound from "./Pages/NotFound";
+import requiredAuthComponent from "./hoc/auth/authRequired";
+
+import "./App.css";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <Link to="/Login"> Login</Link>
+        <br />
+        <br />
+        <Link to="/RequiredAuth"> RequiredAuth</Link>
+        <br />
+        <br />
+        <Link to="/NotRequiredAuth"> NotRequiredAuth</Link>
+        <br />
+        <br />
+        <Switch>
+          <Route path="/" exact component={Login} />
+          <Route path="/Login" component={Login} />
+          <Route
+            path="/RequiredAuth"
+            component={requiredAuthComponent(RequiredAuth)}
+          />
+          <Route path="/NotRequiredAuth" exact component={NotRequiredAuth} />
+          <Route component={NotFound} />
+        </Switch>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
