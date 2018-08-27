@@ -10,7 +10,6 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import NetworkService from "./Service/Net-work-service";
 import authReducer from "./store/reducers/auth";
-import * as actionTypes from "./store/actions/actionTypes";
 
 const composeEnhancers =
   process.env.NODE_ENV === "development"
@@ -26,10 +25,7 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 NetworkService.setupInterceptors(store);
-const token = localStorage.getItem("token");
-if (token !== null) {
-  store.dispatch({ type: actionTypes.AUTH_ISAUTHENTICATE });
-}
+
 const app = (
   <Provider store={store}>
     <BrowserRouter>

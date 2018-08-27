@@ -4,7 +4,9 @@ const initState = {
   token: null,
   username: null,
   loading: false,
-  isAuthenticated: false
+  isAuthenticated: false,
+  permision: null,
+  location: "/"
 };
 
 const authSuccess = (state, action) => {
@@ -13,7 +15,8 @@ const authSuccess = (state, action) => {
     token: action.token,
     username: action.username,
     loading: false,
-    isAuthenticated: true
+    isAuthenticated: true,
+    permision: action.permision
   };
 };
 
@@ -23,25 +26,22 @@ const authFail = (state, action) => {
     token: null,
     username: null,
     loading: false,
-    isAuthenticated: false
-  };
-};
-const setAuthenticate = state => {
-  return {
-    ...state,
-    token: localStorage.getItem("token"),
-    loading: false,
-    isAuthenticated: true
+    isAuthenticated: false,
+    permision: null
   };
 };
 const reducer = (state = initState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_SUCCESS:
+    case actionTypes.AUTH_AUTOLOGIN_SUCCESS:
       return authSuccess(state, action);
     case actionTypes.AUTH_FAIL:
       return authFail(state, action);
-    case actionTypes.AUTH_ISAUTHENTICATE:
-      return setAuthenticate(state);
+    case actionTypes.AUTH_SET_LOCATION:
+      return {
+        ...state,
+        location: action.location
+      };
     default:
       return state;
   }

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import axios from "axios";
 
 class RequiredAuth extends Component {
@@ -15,14 +14,11 @@ class RequiredAuth extends Component {
         // console.log(error);
       });
   };
+
   render() {
+    
     return <button onClick={this.click}>RequiredAuth</button>;
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    token: state.auth.token
-  };
-};
-export default connect(mapStateToProps, null)(RequiredAuth);
+export default RequiredAuth;

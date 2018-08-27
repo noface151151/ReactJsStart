@@ -23,6 +23,19 @@ class Login extends Component {
   Login = () => {
     this.props.onLogin(this.state.userNameValue, this.state.passWordValue);
   };
+  componentWillMount(nextProps) {
+    const token = localStorage.getItem("token");
+    if (token !== null) {
+      this.props.Autologin();
+    }
+  }
+  componentWillUpdate(nextProps) {
+    if (nextProps.isAuthenticated) {
+      console.log('vào')
+      this.props.history.push(this.props.location);
+    }
+  }
+
   render() {
     return (
       <div>
@@ -44,11 +57,18 @@ class Login extends Component {
     );
   }
 }
-
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.token !== null,
+    location:state.auth.location
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
-    onLogin: (usrename, password) => dispatch(actions.login(usrename, password))
+    onLogin: (usrename, password) =>
+      dispatch(actions.login(usrename, password)),
+    Autologin: () => dispatch(actions.Autologin())
   };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

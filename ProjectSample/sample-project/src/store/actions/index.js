@@ -1,5 +1,6 @@
 export {
 login,
 logout,
-Trylogin
+Autologin,
+setLocation
 }from './auth.js'

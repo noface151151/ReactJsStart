@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch, withRouter, Redirect, Link } from "react-router-dom";
+import { Route, Switch, withRouter, Link } from "react-router-dom";
 
 import Login from "./Pages/Login";
 import NotRequiredAuth from "./Pages/NotRequiredAuth";
@@ -23,12 +23,9 @@ class App extends Component {
         <br />
         <br />
         <Switch>
-          <Route path="/" exact component={Login} />
+          <Route path="/" exact component={NotRequiredAuth} />
           <Route path="/Login" component={Login} />
-          <Route
-            path="/RequiredAuth"
-            component={requiredAuthComponent(RequiredAuth)}
-          />
+          <Route path="/RequiredAuth" component={requiredAuthComponent(RequiredAuth)}/>
           <Route path="/NotRequiredAuth" exact component={NotRequiredAuth} />
           <Route component={NotFound} />
         </Switch>
