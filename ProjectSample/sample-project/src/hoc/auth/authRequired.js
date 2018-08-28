@@ -10,21 +10,32 @@ const requiredAuthComponent = WrappedComponent => {
   };
   const mapDispatchToProps = dispatch => {
     return {
-      onSetlocation: (location) => dispatch(actions.setLocation(location))
+      Autologin: () => dispatch(actions.Autologin()),
+      onSetlocation: location => dispatch(actions.setLocation(location))
     };
   };
-  return connect(mapStateToProps,mapDispatchToProps)(
+  return connect(mapStateToProps, mapDispatchToProps)(
     class extends Component {
       componentWillMount() {
         if (!this.props.isAuthenticated) {
           this.props.onSetlocation(this.props.history.location.pathname);
-          this.props.history.push("/Login");
+          const token = localStorage.getItem("token");
+          if (token !== null) {
+            this.props.Autologin();
+          } else {
+            this.props.history.push("/Login");
+          }
         }
       }
       componentWillUpdate(nextProps) {
         if (!nextProps.isAuthenticated) {
           this.props.onSetlocation(this.props.history.location.pathname);
-          this.props.history.push("/Login");
+          const token = localStorage.getItem("token");
+          if (token !== null) {
+            this.props.Autologin();
+          } else {
+            this.props.history.push("/Login");
+          }
         }
       }
       render() {

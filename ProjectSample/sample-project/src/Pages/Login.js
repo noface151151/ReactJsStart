@@ -24,6 +24,11 @@ class Login extends Component {
     this.props.onLogin(this.state.userNameValue, this.state.passWordValue);
   };
   componentWillMount(nextProps) {
+    if(this.props.isAuthenticated){
+      this.props.history.push('/NotRequiredAuth');
+      return;
+    }
+  
     const token = localStorage.getItem("token");
     if (token !== null) {
       this.props.Autologin();
@@ -31,7 +36,6 @@ class Login extends Component {
   }
   componentWillUpdate(nextProps) {
     if (nextProps.isAuthenticated) {
-      console.log('vào')
       this.props.history.push(this.props.location);
     }
   }

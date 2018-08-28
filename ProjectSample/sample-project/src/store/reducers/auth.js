@@ -6,7 +6,7 @@ const initState = {
   loading: false,
   isAuthenticated: false,
   permision: null,
-  location: "/"
+  location: "/NotRequiredAuth"
 };
 
 const authSuccess = (state, action) => {
@@ -36,6 +36,7 @@ const reducer = (state = initState, action) => {
     case actionTypes.AUTH_AUTOLOGIN_SUCCESS:
       return authSuccess(state, action);
     case actionTypes.AUTH_FAIL:
+    case actionTypes.AUTH_LOGOUT:
       return authFail(state, action);
     case actionTypes.AUTH_SET_LOCATION:
       return {
