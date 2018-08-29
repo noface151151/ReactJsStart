@@ -48,8 +48,8 @@ class App extends Component {
           <Route path="/" exact component={Login} />
          <Route path="/Login" component={Login} />
           <Route path="/Logout" component={Logout} />
-          <Route path="/RequiredAuth" component={requiredAuthComponent(RequiredAuth)}/>
-          <Route path="/NotRequiredAuth" exact component={requiredAuthComponent(NotRequiredAuth)} />
+          <Route path="/RequiredAuth" component={requiredAuthComponent(RequiredAuth,true)}/>
+          <Route path="/NotRequiredAuth" exact component={requiredAuthComponent(NotRequiredAuth,false)} />
           <Route component={NotFound} />
         </Switch>
       </div>

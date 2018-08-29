@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 
-const requiredAuthComponent = WrappedComponent => {
+const requiredAuthComponent = (WrappedComponent,isRequiredAuth) => {
   const mapStateToProps = state => {
     return {
       isAuthenticated: state.auth.token !== null
@@ -22,7 +22,7 @@ const requiredAuthComponent = WrappedComponent => {
           const token = localStorage.getItem("token");
           if (token !== null) {
             this.props.Autologin();
-          } else {
+          } else if(isRequiredAuth) {
             this.props.history.push("/Login");
           }
         }
@@ -33,7 +33,7 @@ const requiredAuthComponent = WrappedComponent => {
           const token = localStorage.getItem("token");
           if (token !== null) {
             this.props.Autologin();
-          } else {
+          } else if(isRequiredAuth) {
             this.props.history.push("/Login");
           }
         }
