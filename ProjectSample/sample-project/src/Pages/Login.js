@@ -5,6 +5,7 @@ import * as actions from "../store/actions/index";
 class Login extends Component {
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = {
       userNameValue: "administrator",
       passWordValue: "Erp123456"
@@ -23,7 +24,8 @@ class Login extends Component {
   Login = () => {
     this.props.onLogin(this.state.userNameValue, this.state.passWordValue);
   };
-  componentWillMount(nextProps) {
+  componentWillMount() {
+    console.log('willMount')
     if(this.props.isAuthenticated){
       this.props.history.push('/NotRequiredAuth');
       return;
@@ -34,13 +36,23 @@ class Login extends Component {
       this.props.Autologin();
     }
   }
+  componentDidUpdate(){
+    console.log('componentDidUpdate')
+  }
   componentWillUpdate(nextProps) {
+    console.log('componentWillUpdate',nextProps)
     if (nextProps.isAuthenticated) {
       this.props.history.push(this.props.location);
     }
   }
-
+  componentWillReceiveProps(nextProps){
+    console.log('componentWillReceiveProps',nextProps)
+  }
+  componentDidMount(){
+    console.log('componentDidMount')
+  }
   render() {
+    console.log('render')
     return (
       <div>
         <span>UserName: </span>
@@ -76,3 +88,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+
+
+
+
