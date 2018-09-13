@@ -56,7 +56,7 @@ export const login = (username, password) => {
 export const Autologin = () => {
   return dispatch => {
     axios
-      .get(`${BASE_URL}/Values/`, { isRequiredAuth: true })
+      .get(`${BASE_URL}/Values/Get`, { isRequiredAuth: true })
       .then(resp => {
         dispatch(AutoLoginSuccess(resp.data));
       })

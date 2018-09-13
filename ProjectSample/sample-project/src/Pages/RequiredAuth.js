@@ -4,7 +4,7 @@ import axios from "axios";
 class RequiredAuth extends Component {
   click = () => {
     axios
-      .get("http://localhost:51520/api/Values",{
+      .get("http://localhost:51520/api/Values/Get",{
         isRequiredAuth:true
       })
       .then(resp => {

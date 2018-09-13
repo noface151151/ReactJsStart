@@ -23,7 +23,6 @@ export default {
       config => {
         if (!config.headers.Authorization && config.isRequiredAuth) {
           const token = localStorage.getItem("token");
-
           config.headers.Authorization = `Bearer ${token}`;
         }
 
