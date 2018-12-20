@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Route, Switch, withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
-import Login from "./Pages/Login";
 import Logout from "./Pages/Logout";
 import NotRequiredAuth from "./Pages/NotRequiredAuth";
 import RequiredAuth from "./Pages/RequiredAuth";
@@ -10,10 +9,20 @@ import requiredAuthComponent from "./hoc/auth/authRequired";
 import AddMessage from "./Pages/AddMessage";
 import Header from "./Pages/Header";
 import LoginSingle from './Pages/LoginSingle';
+import axios from 'axios';
 
 import "./App.css";
 
 class App extends Component {
+
+
+  test =()=>{
+    axios.get('http://localhost:51520/api/values/InitSession',{withCredentials: true}).then((res)=>{
+console.log(res)
+    }).catch((err)=>{
+console.log(err)
+    })
+  }
   render() {
     let nav = null;
     let header = null;
@@ -42,31 +51,32 @@ class App extends Component {
       );
     }
     return (
-      <div>
-       {header}
-        <br />
-        <br />
-        {nav}
-        <Switch>
-          <Route path="/" exact component={LoginSingle} />
-          <Route path="/Login" component={LoginSingle} />
-          <Route path="/Logout" component={Logout} />
-          <Route
-            path="/RequiredAuth"
-            component={requiredAuthComponent(RequiredAuth, true)}
-          />
-          <Route
-            path="/NotRequiredAuth"
-            exact
-            component={requiredAuthComponent(NotRequiredAuth, false)}
-          />
-          <Route
-            path="/AddMessage"
-            component={requiredAuthComponent(AddMessage, true)}
-          />
-          <Route component={NotFound} />
-        </Switch>
-      </div>
+      // <div>
+      //  {header}
+      //   <br />
+      //   <br />
+      //   {nav}
+      //   <Switch>
+      //     <Route path="/" exact component={LoginSingle} />
+      //     <Route path="/Login" component={LoginSingle} />
+      //     <Route path="/Logout" component={Logout} />
+      //     <Route
+      //       path="/RequiredAuth"
+      //       component={requiredAuthComponent(RequiredAuth, true)}
+      //     />
+      //     <Route
+      //       path="/NotRequiredAuth"
+      //       exact
+      //       component={requiredAuthComponent(NotRequiredAuth, false)}
+      //     />
+      //     <Route
+      //       path="/AddMessage"
+      //       component={requiredAuthComponent(AddMessage, true)}
+      //     />
+      //     <Route component={NotFound} />
+      //   </Switch>
+      // </div>
+      <button onClick={this.test}></button>
     );
   }
 }

@@ -52,7 +52,6 @@ class LoginSingle extends Component {
   //   console.log('componentDidMount')
   // }
   render() {
-    console.log('render')
     return (
       <div>
         <span>UserName: </span>

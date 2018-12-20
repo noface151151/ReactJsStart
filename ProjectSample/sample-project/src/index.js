@@ -10,21 +10,23 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import NetworkService from "./Service/Net-work-service";
 import authReducer from "./store/reducers/auth";
+import notifyReducer from './store/reducers/notify';
+import * as SignalRMiddleware from './middleware/SignalR'
 
-const composeEnhancers =
-  process.env.NODE_ENV === "development"
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : null || compose;
+const composeEnhancers = compose
+  // process.env.NODE_ENV === "development"
+  //   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  //   : null || compose;
 
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  notify:notifyReducer
 });
-
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk,SignalRMiddleware.signalRRegistration))
 );
-NetworkService.setupInterceptors(store);
+//NetworkService.setupInterceptors(store);
 
 const app = (
   <Provider store={store}>

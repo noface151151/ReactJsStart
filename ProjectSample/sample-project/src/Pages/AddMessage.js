@@ -6,7 +6,8 @@ class AddMessage extends Component {
     super(props);
   
     this.state = {
-      message: ""
+      message: "",
+      userRevice:""
     };
   }
   updateMessageValue(evt) {
@@ -14,16 +15,19 @@ class AddMessage extends Component {
       message: evt.target.value
     });
   }
+  updateUserReceiveValue(evt){
+    this.setState({userRevice:evt.target.value})
+  }
   click = () => {
     axios
-      .get(`http://localhost:51520/api/Values/AddMessage?message=${this.state.message}&userRevice=administrator`, {
+      .get(`http://localhost:51520/api/Values/AddMessage?message=${this.state.message}&userReceive=${this.state.userRevice}`, {
         isRequiredAuth: true
       })
       .then(resp => {
-        console.log(resp);
+        //console.log(resp);
       })
       .catch(error => {
-        console.log(error);
+       // console.log(error);
       });
   };
 
@@ -32,10 +36,19 @@ class AddMessage extends Component {
       <div>
         <span>Message: </span>
         <input
-          value={this.state.userNameValue}
+         
           onChange={evt => this.updateMessageValue(evt)}
           type="text"
         />
+        <br />
+
+        <span>User Receive: </span>
+        <input
+       
+          onChange={evt => this.updateUserReceiveValue(evt)}
+          type="text"
+        />
+
         <button onClick={() => this.click()}>AddMessage</button>
       </div>
     );
