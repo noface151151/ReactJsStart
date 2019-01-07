@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {EditorState,RichUtils, getDefaultKeyBinding,convertToRaw,convertFromRaw} from 'draft-js';
+import {EditorState,RichUtils, getDefaultKeyBinding,convertToRaw,convertFromRaw,AtomicBlockUtils } from 'draft-js';
 import Editor,{composeDecorators } from 'draft-js-plugins-editor';
 import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
@@ -121,7 +121,45 @@ class MyEditor extends Component{
  
    // console.log(convertToRaw(this.state.editorState.getCurrentContent()))
   }
-     
+
+   getBase64 = (file) => {
+    const length = file.length;
+    const promises = [];
+    for(let i=0;i<length;i++){
+      promises.push(new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file[i]);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      }));
+    }
+    return promises;
+   }
+   insertImage = (editorState, base64) => {
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      "image",
+      "IMMUTABLE",
+      { src: base64 }
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(editorState, {
+      currentContent: contentStateWithEntity
+    });
+    return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ");
+  };
+
+  handleFileChosen =(file)=>{
+    Promise.all(this.getBase64(file)).then((values)=>{
+      values.map(value=>{
+        const newEditorState = this.insertImage(this.state.editorState, value);
+        console.log(newEditorState)
+        this.onChange(newEditorState);
+      })
+    }).catch(error=>{
+      console.log(error)
+    })
+  }     
 
       render() {
         const {editorState} = this.state;
@@ -144,6 +182,12 @@ class MyEditor extends Component{
                   editorState={editorState}
                   onToggle={this.toggleInlineStyle}
                 />
+                <input 
+                    type="file" 
+                    accept="image/png, image/jpeg" 
+                    multiple
+                    ref ={(ref)=>this.images=ref} 
+                    onChange={e=>this.handleFileChosen(e.target.files)}/>
                 <div className={className} onClick={this.focus}>
                   <Editor
                     blockStyleFn={getBlockStyle}

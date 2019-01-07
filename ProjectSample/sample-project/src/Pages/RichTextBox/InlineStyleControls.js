@@ -7,7 +7,7 @@ const InlineStyleControls = (props) => {
     const INLINE_STYLES = [
         {label: 'In đậm', style: 'BOLD'},
         {label: 'In nghiêng', style: 'ITALIC'},
-        {label: 'Gạch chân', style: 'UNDERLINE'}
+        {label: 'Gạch chân', style: 'UNDERLINE'},
       ];
     
     return (
