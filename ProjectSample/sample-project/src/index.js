@@ -26,7 +26,7 @@ const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk,SignalRMiddleware.signalRRegistration))
 );
-//NetworkService.setupInterceptors(store);
+NetworkService.setupInterceptors(store);
 
 const app = (
   <Provider store={store}>

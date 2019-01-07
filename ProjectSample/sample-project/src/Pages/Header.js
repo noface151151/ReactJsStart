@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/index";
+import axios from 'axios';
 class Header extends Component {
+  state={
+
+  }
   componentDidMount() {
     // if (this.props.isAuthenticated) {
-    this.props.GetNotify();
+
+     this.props.GetNotify();
 
     // axios
     //   .get("http://localhost:51520/api/Values/GetNotify", {
@@ -48,12 +53,26 @@ class Header extends Component {
     //   .fail(function() {
     //     console.log("failed in connecting to the signalr server");
     //   });
+
+    // const promise1 = axios.get('http://586c926d6d271c1200d51f8f.mockapi.io/api/employees')
+    // const promise2 = axios.get(' http://586c926d6d271c1200d51f8f.mockapi.io/api/product')
+    // let data = {};
+    // const indexToName = ['employees', 'product'];
+    // Promise.all([promise1, promise2]).then((values) => {
+    //   values.map((value, index) => {
+    //     data[indexToName[index]] = value.data;
+    //   })
+    //   this.setState({
+    //     data: data
+    //   });
+    // })
   }
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.isAuthenticated) {
     }
   }
   render() {
+    console.log(this.state)
     const NotifyList =
       this.props.notify === null
         ? null

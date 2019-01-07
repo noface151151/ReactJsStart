@@ -10,19 +10,20 @@ import AddMessage from "./Pages/AddMessage";
 import Header from "./Pages/Header";
 import LoginSingle from './Pages/LoginSingle';
 import axios from 'axios';
+import MyEditor from './Pages/RichTextBox/index';
 
 import "./App.css";
 
 class App extends Component {
 
 
-  test =()=>{
-    axios.get('http://localhost:51520/api/values/InitSession',{withCredentials: true}).then((res)=>{
-console.log(res)
-    }).catch((err)=>{
-console.log(err)
-    })
-  }
+//   test =()=>{
+//     axios.get('http://localhost:51520/api/values/InitSession',{withCredentials: true}).then((res)=>{
+// console.log(res)
+//     }).catch((err)=>{
+// console.log(err)
+//     })
+//   }
   render() {
     let nav = null;
     let header = null;
@@ -50,6 +51,46 @@ console.log(err)
         />
       );
     }
+    const content = {
+      "blocks": [{
+        "key": "9s0dn",
+        "text": "nam",
+        "type": "unordered-list-item",
+        "depth": 0,
+        "inlineStyleRanges": [{
+          "offset": 0,
+          "length": 3,
+          "style": "BOLD"
+        }],
+        "entityRanges": [],
+        "data": {}
+      }, {
+        "key": "fb2hd",
+        "text": "dsdsds",
+        "type": "unordered-list-item",
+        "depth": 0,
+        "inlineStyleRanges": [{
+          "offset": 0,
+          "length": 6,
+          "style": "BOLD"
+        }],
+        "entityRanges": [],
+        "data": {}
+      }, {
+        "key": "id9i",
+        "text": "dsdsds",
+        "type": "unordered-list-item",
+        "depth": 0,
+        "inlineStyleRanges": [{
+          "offset": 0,
+          "length": 6,
+          "style": "BOLD"
+        }],
+        "entityRanges": [],
+        "data": {}
+      }],
+      "entityMap": {}
+    }
     return (
       // <div>
       //  {header}
@@ -76,7 +117,9 @@ console.log(err)
       //     <Route component={NotFound} />
       //   </Switch>
       // </div>
-      <button onClick={this.test}></button>
+    //  <button onClick={this.test}></button>
+
+      <MyEditor content={content}></MyEditor>
     );
   }
 }
