@@ -17,18 +17,30 @@ const handleUpload = (ImageArray) => {
     //     formData.append('file', file);
     //     formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
     //    return axios.post(CLOUDINARY_UPLOAD_URL,formData)      
-    const formData = new FormData();
-    return ImageArray.map(entity => new Promise((resolve, reject) => {
-        formData.append('file', dataURLtoFile(entity.data.src));
-        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-        axios.post(CLOUDINARY_UPLOAD_URL, formData).then(resp => {
-                entity.data.src = resp.data.secure_url;
-                resolve(entity)
+  
+    return ImageArray.map(entity => {
+        if (entity.data.src.substring(0, 5) === 'data:') {
+            return new Promise((resolve, reject) => {
+                const formData = new FormData();
+                formData.append('file', dataURLtoFile(entity.data.src));
+                formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+                axios.post(CLOUDINARY_UPLOAD_URL, formData).then(resp => {
+                        entity.data.src = resp.data.secure_url;
+                        resolve(entity)
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
             })
-            .catch(error => {
-                reject(error)
+        }
+        else{
+            console.log('vào')
+            return new Promise((resolve, reject)=>{
+                resolve(entity);
             })
-    }))
+        }
+
+    })
 }
 
   export default handleUpload;

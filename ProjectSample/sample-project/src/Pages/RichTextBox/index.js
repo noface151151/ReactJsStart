@@ -51,7 +51,7 @@ const plugins = [
 class MyEditor extends Component{
     constructor(props) {
         super(props);
-        this.state = {editorState: EditorState.createWithContent(convertFromRaw(props.content))};
+        this.state = {editorState: props.content ? EditorState.createWithContent(convertFromRaw(props.content)):EditorState.createEmpty()};
         this.focus = () => this.refs.editor.focus();
         this.onChange = (editorState) => this.setState({editorState});
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
@@ -100,19 +100,15 @@ class MyEditor extends Component{
       }
 
   Test = () => {
-    const a= this.state.editorState.getCurrentContent();
-    const CurrentContent = { ...convertToRaw(a)
-    };
-    const Content = Object.assign({}, CurrentContent)
+    const CurrentContent = { ...convertToRaw(this.state.editorState.getCurrentContent())};
+    const Content = {...CurrentContent} 
     const entityMap = Content.entityMap;
-    const arr = Object.keys(entityMap).map((k) => entityMap[k]);
-    Promise.all(handleUpload(arr))
+    const arrImage = Object.keys(entityMap).map((k) => entityMap[k]);
+    Promise.all(handleUpload(arrImage))
       .then(result => {
-        const NewEntityMap = Object.assign({}, result);
-        const NewContent = { ...Content,
-          entityMap: NewEntityMap
-        };
-        console.log(NewContent);
+        const NewContent =  { ...Content,entityMap: result};
+        console.log(JSON.stringify(NewContent));
+        console.log(convertToRaw(this.state.editorState.getCurrentContent()));
         // axios.post("http://localhost:51520/api/Values/InsertContent", NewContent).then((resp) => {
 
         // }).catch(error => {
@@ -121,30 +117,9 @@ class MyEditor extends Component{
         // console.log(convertToRaw(this.state.editorState.getCurrentContent()))
       })
       .catch(error => console.log(error))
-    console.log(convertToRaw(this.state.editorState.getCurrentContent()))
-    // arr.map((entity, index) => {
-    //   if (entity.type === 'IMAGE') {
-    //     handleUpload(entity.data.src)
-    //       .then(resp => {
-    //         console.log(resp.data.secure_url)
-    //         entity.data.src = resp.data.secure_url;
-    //       })
-    //       .catch(err => {
-    //         console.log(err);
-    //       });
-    //   }
-    // })
-    // const NewEntityMap = Object.assign({}, arr);
-    // const NewContent = { ...Content,
-    //   entityMap: NewEntityMap
-    // };
-    // console.log(NewContent);
-    // axios.post("http://localhost:51520/api/Values/InsertContent",NewContent).then((resp)=>{
 
-    // }).catch(error=>{
-    //   console.log(error)
-    // });
-    //console.log(convertToRaw(this.state.editorState.getCurrentContent()))
+ 
+   // console.log(convertToRaw(this.state.editorState.getCurrentContent()))
   }
      
 
