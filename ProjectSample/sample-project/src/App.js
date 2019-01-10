@@ -10,7 +10,7 @@ import AddMessage from "./Pages/AddMessage";
 import Header from "./Pages/Header";
 import LoginSingle from './Pages/LoginSingle';
 import axios from 'axios';
-import MyEditor from './Pages/RichTextBox/index';
+import MyEditor from './Pages/RichTextBox_New/MyEditor';
 
 import "./App.css";
 
