@@ -17,16 +17,12 @@ import './rich.css';
 import handleUpload from '../../Service/UploadImage';
 //import Link from './Link';
 import Preview from '../RenderFromDraft/Preview/Preview';
+import addLinkPluginPlugin from './Plugin/addLinkPlugin';
 
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 
-const decoratorLink = new CompositeDecorator([
-  {
-    strategy: findLinkEntities,
-    component: Link
-  }
-]);
+
 
 const decorator = composeDecorators(
   focusPlugin.decorator,
@@ -49,18 +45,32 @@ const plugins = [
   blockDndPlugin,
   focusPlugin,
   imagePlugin,
-  linkifyPlugin
+  linkifyPlugin,
+  addLinkPluginPlugin
 ];
 
 class MyEditor extends Component{
     constructor(props) {
         super(props);
-      
+        const decoratorLink = new CompositeDecorator([
+          {
+            strategy: findLinkEntities,
+            component: props=>{
+              const {url} = props.contentState.getEntity(props.entityKey).getData();
+                return (
+                  <a href={url} style={{color: '#3b5998',textDecoration: 'underline'}}>
+                    {props.children}
+                  </a>
+                );
+            }
+          }
+        ]);
         this.state = {
           editorState: props.content ? EditorState.createWithContent(convertFromRaw(props.content)) : EditorState.createEmpty(),
          // editorState:  EditorState.createEmpty(),
           showURLInput: false,
           urlValue: '',
+        //  decoratorLink: decoratorLink
         };
         this.focus = () => this.refs.editor.focus();
         this.onChange = (editorState) => this.setState({
@@ -260,7 +270,8 @@ class MyEditor extends Component{
         }
     //   const raw = convertToRaw(editorState.getCurrentContent())
     //  let html = stateToHTML(editorState.getCurrentContent());
-    console.log(convertToRaw(editorState.getCurrentContent()));
+   // console.log(JSON.stringify(convertToRaw(editorState.getCurrentContent())));
+  // console.log(decoratorLink)
         let urlInput;
         if (this.state.showURLInput) {
           urlInput =
@@ -327,8 +338,9 @@ class MyEditor extends Component{
                     placeholder="Nhập nội dung"
                     ref="editor"
                     plugins={plugins}
+                 
                    // spellCheck={true}
-                    decorator={decoratorLink}
+                   // decorator={this.state.decoratorLink}
                   />
                 </div>           
               </div>
@@ -374,7 +386,7 @@ function getBlockStyle(block) {
   }
 }
 function findLinkEntities(contentBlock, callback, contentState) {
-  //console.log(contentBlock)
+  console.log(contentBlock)
   contentBlock.findEntityRanges(
     (character) => {
       const entityKey = character.getEntity();
