@@ -18,6 +18,7 @@ import handleUpload from '../../Service/UploadImage';
 //import Link from './Link';
 import Preview from '../RenderFromDraft/Preview/Preview';
 import addLinkPluginPlugin from './Plugin/addLinkPlugin';
+import mediaBlockRenderer from './Plugin/addMediaPlugin';
 
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
@@ -52,30 +53,22 @@ const plugins = [
 class MyEditor extends Component{
     constructor(props) {
         super(props);
-        const decoratorLink = new CompositeDecorator([
-          {
-            strategy: findLinkEntities,
-            component: props=>{
-              const {url} = props.contentState.getEntity(props.entityKey).getData();
-                return (
-                  <a href={url} style={{color: '#3b5998',textDecoration: 'underline'}}>
-                    {props.children}
-                  </a>
-                );
-            }
-          }
-        ]);
         this.state = {
           editorState: props.content ? EditorState.createWithContent(convertFromRaw(props.content)) : EditorState.createEmpty(),
-         // editorState:  EditorState.createEmpty(),
           showURLInput: false,
           urlValue: '',
-        //  decoratorLink: decoratorLink
+
+        //media
+        showURLInputMedia: false,
+        urlMedia: '',
+        urlType: '',
         };
         this.focus = () => this.refs.editor.focus();
         this.onChange = (editorState) => this.setState({
           editorState
         });
+
+        //#region function
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
         this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
         this.toggleBlockType = this._toggleBlockType.bind(this);
@@ -87,8 +80,20 @@ class MyEditor extends Component{
         this.confirmLink = this._confirmLink.bind(this);
         this.onLinkInputKeyDown = this._onLinkInputKeyDown.bind(this);
         this.removeLink = this._removeLink.bind(this);
+
+        //media
+        this.addAudio = this._addAudio.bind(this);
+        this.addVideo = this._addVideo.bind(this);
+        this.confirmMedia = this._confirmMedia.bind(this);
+        this.onURLInputKeyDown = this._onURLInputKeyDown.bind(this);
+        this.onURLMediaChange = (e) => this.setState({
+          urlMedia: e.target.value
+        });
+        //#endregion
+      
       }
 
+      //#region fucntion 
       _handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
@@ -127,6 +132,9 @@ class MyEditor extends Component{
           )
         );
       }
+      //#endregion
+
+//#region Add Link
       _promptForLink(e) {
         e.preventDefault();
         const {editorState} = this.state;
@@ -188,75 +196,130 @@ class MyEditor extends Component{
           });
         }
       }
+      //#endregion
 
-  Test = () => {
-    const CurrentContent = { ...convertToRaw(this.state.editorState.getCurrentContent())};
-    const Content = {...CurrentContent} 
-    const entityMap = Content.entityMap;
-    const arrImage = Object.keys(entityMap).map((k) => entityMap[k]);
-    Promise.all(handleUpload(arrImage))
-      .then(result => {
-        const NewContent =  { ...Content,entityMap: result};
-        console.log(JSON.stringify(NewContent));
-        console.log(convertToRaw(this.state.editorState.getCurrentContent()));
-        //post API
-        // axios.post("http://localhost:51520/api/Values/InsertContent", NewContent).then((resp) => {
-
-        // }).catch(error => {
-        //   console.log(error)
-        // });
-        // console.log(convertToRaw(this.state.editorState.getCurrentContent()))
-      })
-      .catch(error => console.log(error))
-
- 
-   // console.log(convertToRaw(this.state.editorState.getCurrentContent()))
-  }
-
-   getBase64 = (file) => {
-    const length = file.length;
-    const promises = [];
-    for(let i=0;i<length;i++){
-      promises.push(new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file[i]);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-      }));
+//#region media video,audio
+    _confirmMedia(e) {
+      e.preventDefault();
+      const {editorState, urlMedia, urlType} = this.state;
+      const contentState = editorState.getCurrentContent();
+      const contentStateWithEntity = contentState.createEntity(
+        urlType,
+        'IMMUTABLE',
+        {src: urlMedia}
+      );
+      const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+      const newEditorState = EditorState.set(
+        editorState,
+        {currentContent: contentStateWithEntity}
+      );
+      this.setState({
+        editorState: AtomicBlockUtils.insertAtomicBlock(
+          newEditorState,
+          entityKey,
+          ' '
+        ),
+        showURLInputMedia: false,
+        urlMedia: '',
+      }, () => {
+        setTimeout(() => this.focus(), 0);
+      });
     }
-    return promises;
-   }
-   insertImage = (editorState, base64) => {
-    const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity(
-      "IMAGE",
-      "IMMUTABLE",
-      { src: base64 }
-    );
-    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    const newEditorState = EditorState.set(editorState, {
-      currentContent: contentStateWithEntity
-    });
-    return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ");
-  };
+    _onURLInputKeyDown(e) {
+      if (e.which === 13) {
+        this._confirmMedia(e);
+      }
+    }
+    _promptForMedia(type) {
+      this.setState({
+        showURLInputMedia: true,
+        urlMedia: '',
+        urlType: type,
+      }, () => {
+        setTimeout(() => this.refs.url.focus(), 0);
+      });
+    }
+    _addAudio() {
+      this._promptForMedia('AUDIO');
+    }
+    _addVideo() {
+      this._promptForMedia('VIDEO');
+    }
+//#endregion
+//#region call API
+Test = () => {
+  const CurrentContent = { ...convertToRaw(this.state.editorState.getCurrentContent())};
+  const Content = {...CurrentContent} 
+  const entityMap = Content.entityMap;
+  const arrImage = Object.keys(entityMap).map((k) => entityMap[k]);
+  Promise.all(handleUpload(arrImage))
+    .then(result => {
+      const NewContent =  { ...Content,entityMap: result};
+      console.log(JSON.stringify(NewContent));
+      console.log(convertToRaw(this.state.editorState.getCurrentContent()));
+      //post API
+      // axios.post("http://localhost:51520/api/Values/InsertContent", NewContent).then((resp) => {
 
-  handleFileChosen =(file)=>{
-    Promise.all(this.getBase64(file)).then((values)=>{
-      values.map(value=>{
-        const newEditorState = this.insertImage(this.state.editorState, value);
-       // console.log(newEditorState)
-        this.onChange(newEditorState);
-      })
-    }).catch(error=>{
-      console.log(error)
+      // }).catch(error => {
+      //   console.log(error)
+      // });
+      // console.log(convertToRaw(this.state.editorState.getCurrentContent()))
     })
-  }     
+    .catch(error => console.log(error))
+
+
+ // console.log(convertToRaw(this.state.editorState.getCurrentContent()))
+}
+//#endregion
+
+//#region Insert IMAGE
+getBase64 = (file) => {
+  const length = file.length;
+  const promises = [];
+  for(let i=0;i<length;i++){
+    promises.push(new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file[i]);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    }));
+  }
+  return promises;
+ }
+ insertImage = (editorState, base64) => {
+  const contentState = editorState.getCurrentContent();
+  const contentStateWithEntity = contentState.createEntity(
+    "IMAGE",
+    "IMMUTABLE",
+    { src: base64 }
+  );
+  const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+  const newEditorState = EditorState.set(editorState, {
+    currentContent: contentStateWithEntity
+  });
+  return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ");
+};
+
+handleFileChosen =(file)=>{
+  Promise.all(this.getBase64(file)).then((values)=>{
+    values.map(value=>{
+      const newEditorState = this.insertImage(this.state.editorState, value);
+     // console.log(newEditorState)
+      this.onChange(newEditorState);
+    })
+  }).catch(error=>{
+    console.log(error)
+  })
+}     
+//#endregion
+
+
+  
   renderWarning() {
     return <div>Nothing to render.</div>;
   }
       render() {
         const {editorState} = this.state;
-       // const { content } = this.props;
         let rendered=null;
         if (!editorState) {
           rendered= this.renderWarning();
@@ -268,10 +331,8 @@ class MyEditor extends Component{
         if (!rendered) {
           rendered= this.renderWarning();
         }
-    //   const raw = convertToRaw(editorState.getCurrentContent())
-    //  let html = stateToHTML(editorState.getCurrentContent());
    // console.log(JSON.stringify(convertToRaw(editorState.getCurrentContent())));
-  // console.log(decoratorLink)
+
         let urlInput;
         if (this.state.showURLInput) {
           urlInput =
@@ -283,8 +344,27 @@ class MyEditor extends Component{
                 type="text"
                 value={this.state.urlValue}
                 onKeyDown={this.onLinkInputKeyDown}
+                placeholder='Nhập đường dẫn liên kết'
               />
               <button onMouseDown={this.confirmLink}>
+                Xác nhận
+              </button>
+            </div>;
+        }
+
+        let urlMediInput;
+        if (this.state.showURLInputMedia) {
+          urlMediInput =
+            <div style={{ marginBottom: 10,marginTop:10}}>
+              <input
+                onChange={this.onURLMediaChange}
+                ref="url"
+                style={{fontFamily: '\'Georgia\', serif',marginRight: 10, padding: 3}}
+                type="text"
+                value={this.state.urlMedia}
+                onKeyDown={this.onURLInputKeyDown}
+              />
+              <button onMouseDown={this.confirmMedia}>
                 Xác nhận
               </button>
             </div>;
@@ -327,6 +407,17 @@ class MyEditor extends Component{
                   </button>
                 </div>
                 {urlInput}
+
+                <div style={{marginTop:10}}>
+                {/* <button onMouseDown={this.addAudio} style={{marginRight: 10}}>
+                  Chèn âm thanh
+                </button> */}
+                <button onMouseDown={this.addVideo} style={{marginRight: 10}}>
+                 Chèn video
+                </button>
+                </div>
+                {urlMediInput}
+
                 <div className={className} onClick={this.focus}>             
                   <Editor
                     blockStyleFn={getBlockStyle}
@@ -338,9 +429,7 @@ class MyEditor extends Component{
                     placeholder="Nhập nội dung"
                     ref="editor"
                     plugins={plugins}
-                 
-                   // spellCheck={true}
-                   // decorator={this.state.decoratorLink}
+                    blockRendererFn={mediaBlockRenderer}
                   />
                 </div>           
               </div>
@@ -349,9 +438,7 @@ class MyEditor extends Component{
               </div>
 
               <div>
-                {/* {JSON.stringify(raw)} */}
                 {rendered}
-                {/* <Preview raw={convertToRaw(editorState)}></Preview> */}
               </div>
 
             </div>
@@ -367,17 +454,7 @@ const styleMap = {
   },
 };
 
-const Link = (props) => {
-  console.log(props);
-  const {url} = props.contentState.getEntity(props.entityKey).getData();
- 
-  
-  return (
-    <a href={url} style={{color: '#3b5998',textDecoration: 'underline'}}>
-      {props.children}
-    </a>
-  );
-};
+
 
 function getBlockStyle(block) {
   switch (block.getType()) {
@@ -385,18 +462,6 @@ function getBlockStyle(block) {
     default: return null;
   }
 }
-function findLinkEntities(contentBlock, callback, contentState) {
-  console.log(contentBlock)
-  contentBlock.findEntityRanges(
-    (character) => {
-      const entityKey = character.getEntity();
-      return (
-        entityKey !== null &&
-        contentState.getEntity(entityKey).getType() === 'LINK'
-      );
-    },
-    callback
-  );
-}
+
 
 export default MyEditor;

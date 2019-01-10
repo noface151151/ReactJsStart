@@ -68,6 +68,7 @@ const blocks = {
 const entities = {
   LINK: (children, entity, { key }) => <a key={key} href={entity.url}>{children}</a>,
   IMAGE:(children, entity, { key }) => <img key={key} src={entity.src} alt='image' style={{display:'block', marginLeft: 'auto',marginRight: 'auto'}} />,
+  VIDEO:(children, entity, { key }) => <iframe height='315' width='560' key={key} src={entity.src} style={{display:'block', marginLeft: 'auto',marginRight: 'auto'}} />,
 };
 
 

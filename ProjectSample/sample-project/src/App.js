@@ -208,8 +208,8 @@ class App extends Component {
     //   ],
     // };
     
-   // const content = {"blocks":[{"key":"36e3v","text":"dddddddd","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":8,"key":0}],"data":{}},{"key":"2a7l0","text":"aaaaaaaaa","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":9,"key":1}],"data":{}},{"key":"7g7fl","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{"0":{"type":"LINK","mutability":"MUTABLE","data":{"url":"https://stackoverflow.com/questions/41808428/react-proptypes-allow-different-types-of-proptypes-for-one-prop"}},"1":{"type":"LINK","mutability":"MUTABLE","data":{"url":"https://draftjs.org/docs/advanced-topics-entities"}}}}
-    const content = null;
+    const content = {"blocks":[{"key":"73iia","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"1qltn","text":" ","type":"atomic","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":0}],"data":{}},{"key":"1rpjc","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":[{"type":"VIDEO","mutability":"IMMUTABLE","data":{"src":"https://www.youtube.com/embed/1vL06_lJMhY"}}]}
+    //const content = null;
     
     return (
       // <div>

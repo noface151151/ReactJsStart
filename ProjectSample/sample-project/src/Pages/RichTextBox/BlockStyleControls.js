@@ -16,8 +16,8 @@ const BlockStyleControls = (props) => {
         {label: 'H5', style: 'header-five'},
         {label: 'H6', style: 'header-six'},
       //  {label: 'Blockquote', style: 'blockquote'},
-        {label: 'UL', style: 'unordered-list-item'},
-        {label: 'OL', style: 'ordered-list-item'},
+        {label: 'Danh sách', style: 'unordered-list-item'},
+        {label: 'Thứ tự', style: 'ordered-list-item'},
        // {label: 'Code Block', style: 'code-block'},
       ];
     return (
