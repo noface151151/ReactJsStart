@@ -238,8 +238,10 @@ class App extends Component {
       //   </Switch>
       // </div>
     //  <button onClick={this.test}></button>
-
-      <MyEditor content={content}></MyEditor>
+<div style={{marginTop:50,marginLeft:100}}>
+<MyEditor content={content}></MyEditor>
+</div>
+      
     );
   }
 }

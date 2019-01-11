@@ -1,3 +1,11 @@
+.RichEditorRoot {
+  background: #fff;
+  border: 1px solid #ddd;
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  padding: 15px;
+}
+
 .editor {
     box-sizing: border-box;
     border: 1px solid #ddd;
@@ -11,4 +19,25 @@
   
   .editor :global(.public-DraftEditor-content) {
     min-height: 140px;
+  }
+  
+  .headlineButtonWrapper {
+    display: inline-block;
+  }
+  
+  .headlineButton {
+    background: #333;
+    color: #ddd;
+    font-size: 18px;
+    border: 0;
+    padding-top: 5px;
+    vertical-align: bottom;
+    height: 34px;
+    width: 36px;
+  }
+  
+  .headlineButton:hover,
+  .headlineButton:focus {
+    background: #444;
+    outline: 0;
   }
