@@ -11,7 +11,7 @@ function dataURLtoFile(dataurl) {
     }
     return new File([u8arr], Math.random(), {type:mime});
 }
-const handleUpload = (ImageArray) => {
+const handleUpload_new = (ImageArray) => {
     //     const formData = new FormData();
     //     var file =dataURLtoFile(base64Url);
     //     formData.append('file', file);
@@ -43,4 +43,40 @@ const handleUpload = (ImageArray) => {
     })
 }
 
+const handleUpload = (files) => {
+    //     const formData = new FormData();
+    //     var file =dataURLtoFile(base64Url);
+    //     formData.append('file', file);
+    //     formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    //    return axios.post(CLOUDINARY_UPLOAD_URL,formData)      
+
+        // if (entity.data.src.substring(0, 5) === 'data:') {
+       return new Promise((resolve, reject) => {
+            const formData = new FormData();
+            formData.append('file', files);
+            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+            axios.post(CLOUDINARY_UPLOAD_URL, formData).then(resp => {
+                    // entity.data.src = resp.data.secure_url;
+                //    console.log(resp.data.secure_url)
+                    resolve({
+                        data: {
+                            link: resp.data.secure_url
+                        }
+                    })
+                })
+                .catch(error => {
+                    reject(error)
+                })
+        })
+        //   }
+        // else{
+        //     console.log('vào')
+        //     return new Promise((resolve, reject)=>{
+        //         resolve(entity);
+        //     })
+        // }
+
+    
+   // return promises;
+}
   export default handleUpload;

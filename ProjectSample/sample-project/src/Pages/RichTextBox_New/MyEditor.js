@@ -16,6 +16,7 @@ import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import createDragNDropUploadPlugin from '@mikeljames/draft-js-drag-n-drop-upload-plugin';
+import createAlignmentPlugin from 'draft-js-alignment-plugin';
 
 import editorStyles from './editorStyles.css';
 import buttonStyles from './buttonStyles.css';
@@ -23,6 +24,7 @@ import toolbarStyles from './toolbarStyles.css';
 import linkStyles from './linkStyles.css'
 import HeadlinesButton from './HeadlinesButton';
 import Preview from '../RenderFromDraft/Preview/Preview';
+//import createBlockPlugin from './Block';
 
 
 const linkPlugin = createLinkPlugin({
@@ -40,12 +42,19 @@ const linkPlugin = createLinkPlugin({
 
   const focusPlugin = createFocusPlugin();
   const blockDndPlugin = createBlockDndPlugin();
+  const alignmentPlugin = createAlignmentPlugin();
+  const { AlignmentTool } = alignmentPlugin;
   const decorator = composeDecorators(
     focusPlugin.decorator,
     blockDndPlugin.decorator
   );
+  // const decoratorAlignment = composeDecorators(
+  //   alignmentPlugin.decorator,
+  //   focusPlugin.decorator,
+  // )
   const imagePlugin = createImagePlugin({ decorator });
- 
+ // const BlockPlugin = createBlockPlugin(); 
+
   const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
     handleUpload:  () => {
       console.log(arguments)
@@ -54,7 +63,7 @@ const linkPlugin = createLinkPlugin({
       return imagePlugin.addImage(editorState, src);
      }
   });
-  const plugins = [inlineToolbarPlugin, linkPlugin,videoPlugin,imagePlugin,dragNDropFileUploadPlugin];
+  const plugins = [inlineToolbarPlugin, linkPlugin,videoPlugin,imagePlugin,dragNDropFileUploadPlugin,alignmentPlugin];
   export default class ThemedInlineToolbarEditor extends Component {
         constructor(props) {
           super(props);
@@ -171,9 +180,11 @@ getBase64 = (file) => {
 handleFileChosen =(file)=>{
   Promise.all(this.getBase64(file)).then((values)=>{
     values.map(value=>{
+      console.log(value)
       const newEditorState = this.insertImage(this.state.editorState, value);
      // console.log(newEditorState)
       this.onChange(newEditorState);
+      this.images.value='';
     })
   }).catch(error=>{
     console.log(error)
@@ -204,7 +215,7 @@ handleFileChosen =(file)=>{
               <button onMouseDown={this.onClose}  type="button"  className="btn btn-danger" style={{marginLeft:'5px'}}>Đóng</button>
             </div>;
         }
-       // console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())));
+        console.log(convertToRaw(this.state.editorState.getCurrentContent()));
       return (
         <div>
           <div className={editorStyles.RichEditorRoot}>
@@ -229,6 +240,7 @@ handleFileChosen =(file)=>{
             onChange={this.onChange}
             plugins={plugins}
             ref={(element) => { this.editor = element; }}
+
           />
           <InlineToolbar>
             {
@@ -242,7 +254,7 @@ handleFileChosen =(file)=>{
                   <HeadlinesButton {...externalProps} />
                   <UnorderedListButton {...externalProps} />
                   <OrderedListButton {...externalProps} />
-                  
+                  <AlignmentTool {...externalProps}></AlignmentTool>
                 </div>
               )
             }

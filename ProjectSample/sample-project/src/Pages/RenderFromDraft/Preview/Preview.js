@@ -21,6 +21,17 @@ const styles = {
     fontSize: 16,
     padding: 20,
   },
+  imageCenter:{
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight:'auto',
+  },
+  imageleft:{
+    float:'left'
+  },
+  imageright:{
+    float:'right'
+  }
 };
 
 const inline = {
@@ -28,14 +39,50 @@ const inline = {
   ITALIC: (children, { key }) => <em key={key}>{children}</em>,
   UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
   CODE: (children, { key }) => <span key={key} style={styles.code}>{children}</span>,
+  SUPERSCRIPT:(children,{key})=><sup key={key}>{children}</sup>,
+  SUBSCRIPT:(children,{key})=><sub key={key}>{children}</sub>,
+  'fontfamily-Impact':(children,{key})=><span style={{fontFamily:'Impact'}} key={key}>{children}</span>,
+  'fontfamily-Arial':(children,{key})=><span style={{fontFamily:'Arial'}} key={key}>{children}</span>,
+  'fontfamily-Georgia':(children,{key})=><span style={{fontFamily:'Georgia'}} key={key}>{children}</span>,
+  'fontfamily-Tahoma':(children,{key})=><span style={{fontFamily:'Tahoma'}} key={key}>{children}</span>,
+  'fontfamily-Times New Roman':(children,{key})=><span style={{fontFamily:'Times New Roman'}} key={key}>{children}</span>,
+  'fontfamily-Verdana':(children,{key})=><span style={{fontFamily:'Verdana'}} key={key}>{children}</span>,
+
+  'color-rgb(97,189,109)':(children,{key})=><span style={{color:'rgb(97,189,109)'}} key={key}>{children}</span>, 
+  'color-rgb(26,188,156)':(children,{key})=><span style={{color:'rgb(26,188,156)'}} key={key}>{children}</span>, 
+  'color-rgb(84,172,210)':(children,{key})=><span style={{color:'rgb(84,172,210)'}} key={key}>{children}</span>, 
+  'color-rgb(44,130,201)':(children,{key})=><span style={{color:'rgb(44,130,201)'}} key={key}>{children}</span>,
+  'color-rgb(147,101,184)':(children,{key})=><span style={{color:'rgb(147,101,184)'}} key={key}>{children}</span>, 
+  'color-rgb(71,85,119)':(children,{key})=><span style={{color:'rgb(71,85,119)'}} key={key}>{children}</span>, 
+  'color-rgb(204,204,204)':(children,{key})=><span style={{color:'rgb(204,204,204)'}} key={key}>{children}</span>, 
+  'color-rgb(65,168,95)':(children,{key})=><span style={{color:'rgb(65,168,95)'}} key={key}>{children}</span>, 
+  'color-rgb(0,168,133)':(children,{key})=><span style={{color:'rgb(0,168,133)'}} key={key}>{children}</span>,
+  'color-rgb(61,142,185)':(children,{key})=><span style={{color:'rgb(61,142,185)'}} key={key}>{children}</span>, 
+  'color-rgb(41,105,176)':(children,{key})=><span style={{color:'rgb(41,105,176)'}} key={key}>{children}</span>, 
+  'color-rgb(85,57,130)':(children,{key})=><span style={{color:'rgb(85,57,130)'}} key={key}>{children}</span>, 
+  'color-rgb(40,50,78)':(children,{key})=><span style={{color:'rgb(40,50,78)'}} key={key}>{children}</span>, 
+  'color-rgb(0,0,0)':(children,{key})=><span style={{color:'rgb(0,0,0)'}} key={key}>{children}</span>,
+  'color-rgb(247,218,100)':(children,{key})=><span style={{color:'rgb(247,218,100)'}} key={key}>{children}</span>, 
+  'color-rgb(251,160,38)':(children,{key})=><span style={{color:'rgb(251,160,38)'}} key={key}>{children}</span>, 
+  'color-rgb(235,107,86)':(children,{key})=><span style={{color:'rgb(235,107,86)'}} key={key}>{children}</span>, 
+  'color-rgb(226,80,65)':(children,{key})=><span style={{color:'rgb(226,80,65)'}} key={key}>{children}</span>, 
+  'color-rgb(163,143,132)':(children,{key})=><span style={{color:'rgb(163,143,132)'}} key={key}>{children}</span>,
+  'color-rgb(239,239,239)':(children,{key})=><span style={{color:'rgb(239,239,239)'}} key={key}>{children}</span>, 
+  'color-rgb(255,255,255)':(children,{key})=><span style={{color:'rgb(255,255,255)'}} key={key}>{children}</span>, 
+  'color-rgb(250,197,28)':(children,{key})=><span style={{color:'rgb(250,197,28)'}} key={key}>{children}</span>, 
+  'color-rgb(243,121,52)':(children,{key})=><span style={{color:'rgb(243,121,52)'}} key={key}>{children}</span>, 
+  'color-rgb(209,72,65)':(children,{key})=><span style={{color:'rgb(209,72,65)'}} key={key}>{children}</span>,
+  'color-rgb(184,49,47)':(children,{key})=><span style={{color:'rgb(184,49,47)'}} key={key}>{children}</span>, 
+  'color-rgb(124,112,107)':(children,{key})=><span style={{color:'rgb(124,112,107)'}} key={key}>{children}</span>, 
+  'color-rgb(209,213,216)':(children,{key})=><span style={{color:'rgb(209,213,216)'}} key={key}>{children}</span>
 };
 
 
 const addBreaklines = children => children.map((child,i) => [child, <br key={i} />]);
 
 const getList = ordered =>
-  (children, { depth, keys }) => (
-    <List key={keys[0]} keys={keys} depth={depth} ordered={ordered}>
+  (children, { depth, keys,data }) => (
+    <List style={data[0]} key={keys[0]} keys={keys} depth={depth} ordered={ordered}>
       {children.map((child, i) => <li key={keys[i]} >{child}</li>)}
     </List>
   );
@@ -50,24 +97,24 @@ const getAtomic = (children, { data, keys }) => data.map(
 const blocks = {
   // Rendering blocks like this along with cleanup results in a single p tag for each paragraph
   // adding an empty block closes current paragraph and starts a new one
-  unstyled: (children, { keys }) => <p key={keys[0]}>{addBreaklines(children)}</p>,
+  unstyled: (children, { keys,data }) =><p style={{textAlign: data[0]['text-align']}} key={keys[0]}>{addBreaklines(children)}</p> ,
  // atomic: getAtomic,
   blockquote:
-    (children, { keys }) => <blockquote key={keys[0]} >{addBreaklines(children)}</blockquote>,
-  'header-one': (children, { keys }) => children.map((child, i) => <h1 key={keys[i]}>{child}</h1>),
-  'header-two': (children, { keys }) => children.map((child, i) => <h2 key={keys[i]}>{child}</h2>),
-  'header-three': (children, { keys }) => children.map((child, i) => <h3 key={keys[i]}>{child}</h3>),
-  'header-four': (children, { keys }) => children.map((child, i) => <h4 key={keys[i]}>{child}</h4>),
-  'header-five': (children, { keys }) => children.map((child, i) => <h5 key={keys[i]}>{child}</h5>),
-  'header-six': (children, { keys }) => children.map((child, i) => <h6 key={keys[i]}>{child}</h6>),
-  'code-block': (children, { keys }) => <pre key={keys[0]} style={styles.codeBlock}>{addBreaklines(children)}</pre>,
+    (children, { keys,data  }) => <blockquote  style={data[0]}  key={keys[0]} >{addBreaklines(children)}</blockquote>,
+  'header-one': (children, { keys,data }) => children.map((child, i) => <h1  style={data[0]}  key={keys[i]}>{child}</h1>),
+  'header-two': (children, { keys,data  }) => children.map((child, i) => <h2  style={data[0]}  key={keys[i]}>{child}</h2>),
+  'header-three': (children, { keys,data }) => children.map((child, i) => <h3  style={data[0]}  key={keys[i]}>{child}</h3>),
+  'header-four': (children, { keys,data  }) => children.map((child, i) => <h4  style={data[0]}  key={keys[i]}>{child}</h4>),
+  'header-five': (children, { keys,data  }) => children.map((child, i) => <h5  style={data[0]}  key={keys[i]}>{child}</h5>),
+  'header-six': (children, { keys,data  }) => children.map((child, i) => <h6  style={data[0]}  key={keys[i]}>{child}</h6>),
+  'code-block': (children, { keys,data  }) =>{const style={...styles.codeBlock,...data[0]};return(<pre key={keys[0]} style={style}>{addBreaklines(children)}</pre>)} ,
   'unordered-list-item': getList(),
   'ordered-list-item': getList(true),
 };
 
 const entities = {
   LINK: (children, entity, { key }) => <a key={key} href={entity.url}>{children}</a>,
-  IMAGE:(children, entity, { key }) => <img key={key} src={entity.src} alt='image' style={{display:'block', marginLeft: 'auto',marginRight: 'auto'}} />,
+  IMAGE:(children, entity, { key }) =>{let style=null;style= (entity.alignment===undefined||entity.alignment==='none')?styles.imageCenter:styles['image'+entity.alignment];return(<img key={key} style={style} src={entity.src} alt='image' height={entity.height} width={entity.width} /> )},
   'draft-js-video-plugin-video':(children, entity, { key }) => <iframe height='315' width='560' key={key} src={entity.src} style={{display:'block', marginLeft: 'auto',marginRight: 'auto'}} />,
 };
 

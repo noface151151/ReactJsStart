@@ -10,7 +10,8 @@ import AddMessage from "./Pages/AddMessage";
 import Header from "./Pages/Header";
 import LoginSingle from './Pages/LoginSingle';
 import axios from 'axios';
-import MyEditor from './Pages/RichTextBox_New/MyEditor';
+//import MyEditor from './Pages/RichTextBox_New/MyEditor';
+import ControlledEditor from './Pages/Editor_New/Editor';
 
 import "./App.css";
 
@@ -208,8 +209,9 @@ class App extends Component {
     //   ],
     // };
     
-    const content = {"blocks":[{"key":"73iia","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"1qltn","text":" ","type":"atomic","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":0}],"data":{}},{"key":"1rpjc","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":[{"type":"VIDEO","mutability":"IMMUTABLE","data":{"src":"https://www.youtube.com/embed/1vL06_lJMhY"}}]}
-    //const content = null;
+   // const content = {"blocks":[{"key":"73iia","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"1qltn","text":" ","type":"atomic","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":0}],"data":{}},{"key":"1rpjc","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":[{"type":"VIDEO","mutability":"IMMUTABLE","data":{"src":"https://www.youtube.com/embed/1vL06_lJMhY"}}]}
+    const content = '<p style="text-align:justify;"></p>'+
+    '<img src="https://res.cloudinary.com/productimage/image/upload/v1547776894/mkj4mcowwo5d6cjt3jbx.png" alt="undefined" style="float:none;height: 500px;width: 500px"/><p></p>';
     
     return (
       // <div>
@@ -238,9 +240,9 @@ class App extends Component {
       //   </Switch>
       // </div>
     //  <button onClick={this.test}></button>
-<div style={{marginTop:50,marginLeft:100}}>
-<MyEditor content={content}></MyEditor>
-</div>
+
+<ControlledEditor content={content} ></ControlledEditor>
+
       
     );
   }
