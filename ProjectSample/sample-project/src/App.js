@@ -210,8 +210,7 @@ class App extends Component {
     // };
     
    // const content = {"blocks":[{"key":"73iia","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"1qltn","text":" ","type":"atomic","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":0}],"data":{}},{"key":"1rpjc","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":[{"type":"VIDEO","mutability":"IMMUTABLE","data":{"src":"https://www.youtube.com/embed/1vL06_lJMhY"}}]}
-    const content = '<p style="text-align:justify;"></p>'+
-    '<img src="https://res.cloudinary.com/productimage/image/upload/v1547776894/mkj4mcowwo5d6cjt3jbx.png" alt="undefined" style="float:none;height: 500px;width: 500px"/><p></p>';
+    const content = {"blocks":[{"key":"2h9dt","text":"dddddddddddddd ","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":14,"style":"color-rgb(147,101,184)"}],"entityRanges":[{"offset":6,"length":8,"key":0}],"data":{}},{"key":"95si4","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"7m0he","text":" ","type":"atomic","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":1}],"data":{}},{"key":"2avm5","text":"dddsddsdsds","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"2ektq","text":"dsdsds","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"f0k2n","text":"dsdddddd","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"4vqet","text":"ddddddddd","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{"0":{"type":"LINK","mutability":"MUTABLE","data":{"url":"https://jpuri.github.io/react-draft-wysiwyg/#/demo","targetOption":"_self"}},"1":{"type":"IMAGE","mutability":"MUTABLE","data":{"src":"https://res.cloudinary.com/productimage/image/upload/v1548122427/bs0q0fy3szvlfzfv1btx.png","height":"250px","width":"250px","alignment":"left"}}}};
     
     return (
       // <div>
@@ -241,7 +240,7 @@ class App extends Component {
       // </div>
     //  <button onClick={this.test}></button>
 
-<ControlledEditor content={content} ></ControlledEditor>
+<ControlledEditor  ></ControlledEditor>
 
       
     );

@@ -25,12 +25,13 @@ const styles = {
     display: 'block',
     marginLeft: 'auto',
     marginRight:'auto',
+    display:'block'
   },
   imageleft:{
-    float:'left'
+    float:'left',
   },
   imageright:{
-    float:'right'
+    float:'right',
   }
 };
 
@@ -41,6 +42,7 @@ const inline = {
   CODE: (children, { key }) => <span key={key} style={styles.code}>{children}</span>,
   SUPERSCRIPT:(children,{key})=><sup key={key}>{children}</sup>,
   SUBSCRIPT:(children,{key})=><sub key={key}>{children}</sub>,
+  STRIKETHROUGH:(children,{key})=><strike key={key}>{children}</strike>,
   'fontfamily-Impact':(children,{key})=><span style={{fontFamily:'Impact'}} key={key}>{children}</span>,
   'fontfamily-Arial':(children,{key})=><span style={{fontFamily:'Arial'}} key={key}>{children}</span>,
   'fontfamily-Georgia':(children,{key})=><span style={{fontFamily:'Georgia'}} key={key}>{children}</span>,
@@ -114,8 +116,8 @@ const blocks = {
 
 const entities = {
   LINK: (children, entity, { key }) => <a key={key} href={entity.url}>{children}</a>,
-  IMAGE:(children, entity, { key }) =>{let style=null;style= (entity.alignment===undefined||entity.alignment==='none')?styles.imageCenter:styles['image'+entity.alignment];return(<img key={key} style={style} src={entity.src} alt='image' height={entity.height} width={entity.width} /> )},
-  'draft-js-video-plugin-video':(children, entity, { key }) => <iframe height='315' width='560' key={key} src={entity.src} style={{display:'block', marginLeft: 'auto',marginRight: 'auto'}} />,
+  IMAGE:(children, entity, { key }) =>{let style=null;style= (entity.alignment===undefined||entity.alignment==='none')?styles.imageCenter:styles['image'+entity.alignment];return(<span  key={key}> <img style={style} src={entity.src} alt='image' height={entity.height} width={entity.width} /><br style={{clear:'both'}} /> </span> )},
+  EMBEDDED_LINK:(children, entity, { key }) => <iframe height='315' width='560' key={key} src={entity.src} style={{display:'block', marginLeft: 'auto',marginRight: 'auto'}} />,
 };
 
 

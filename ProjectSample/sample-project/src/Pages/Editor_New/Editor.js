@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState,convertToRaw } from 'draft-js';
+import { EditorState,convertToRaw,convertFromRaw } from 'draft-js';
 import handleUpload from '../../Service/UploadImage';
 import Preview from '../RenderFromDraft/Preview/Preview';
 
@@ -9,7 +9,7 @@ class ControlledEditor extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        editorState: EditorState.createEmpty(),
+        editorState:props.content? EditorState.createWithContent(convertFromRaw(props.content)) : EditorState.createEmpty(),
       };
     }
   
@@ -30,13 +30,13 @@ class ControlledEditor extends Component {
     //   }
     render() {
       const { editorState } = this.state;
-      console.log(convertToRaw(editorState.getCurrentContent()))
+      console.log(JSON.stringify(convertToRaw(editorState.getCurrentContent())))
       let rendered=null;
       if (!editorState) {
         rendered= this.renderWarning();
       }
       else{
-        rendered = <Preview raw={convertToRaw(editorState.getCurrentContent())}></Preview>;
+        rendered = <Preview raw={ convertToRaw(editorState.getCurrentContent())}></Preview>;
       }
       
       if (!rendered) {
