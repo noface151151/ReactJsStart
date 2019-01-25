@@ -30,7 +30,7 @@ class ControlledEditor extends Component {
     //   }
     render() {
       const { editorState } = this.state;
-      console.log((convertToRaw(editorState.getCurrentContent())));
+      console.log(convertToRaw(editorState.getCurrentContent()))
       let rendered=null;
       if (!editorState) {
         rendered= this.renderWarning();

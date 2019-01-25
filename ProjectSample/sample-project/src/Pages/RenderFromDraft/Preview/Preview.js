@@ -34,6 +34,14 @@ const styles = {
   }
 };
 const sizes=[8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96];
+const fontFamilies = ['Arial', 'Georgia', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana']
+const colors=['rgb(97,189,109)', 'rgb(26,188,156)', 'rgb(84,172,210)', 'rgb(44,130,201)',
+'rgb(147,101,184)', 'rgb(71,85,119)', 'rgb(204,204,204)', 'rgb(65,168,95)', 'rgb(0,168,133)',
+'rgb(61,142,185)', 'rgb(41,105,176)', 'rgb(85,57,130)', 'rgb(40,50,78)', 'rgb(0,0,0)',
+'rgb(247,218,100)', 'rgb(251,160,38)', 'rgb(235,107,86)', 'rgb(226,80,65)', 'rgb(163,143,132)',
+'rgb(239,239,239)', 'rgb(255,255,255)', 'rgb(250,197,28)', 'rgb(243,121,52)', 'rgb(209,72,65)',
+'rgb(184,49,47)', 'rgb(124,112,107)', 'rgb(209,213,216)'];
+
 let inline={};
 sizes.map(value=>{
   const inlineSize = {
@@ -45,6 +53,33 @@ sizes.map(value=>{
   }
   inline= {...inline,...inlineSize};
 })
+fontFamilies.map(value=>{
+  const inlineFontFamilies ={
+    ['fontfamily-'+value]:(children,{key})=>{
+      return(
+        <span style={{fontFamily:value}} key={key}>{children}</span>
+      )
+    }
+  }
+  inline={...inline,...inlineFontFamilies};
+})
+colors.map(value=>{
+  const colorInline = {
+    ['color-'+value]:(children,{key})=>{
+      return(
+        <span style={{color:value}} key={key}>{children}</span>
+      )
+    }
+  }
+  const hightlightInline = {
+    ['bgcolor-'+value]:(children,{key})=>{
+      return(
+        <span style={{backgroundColor:value}} key={key}>{children}</span>
+      )
+    }
+  }
+  inline={...inline,...colorInline,...hightlightInline};
+})
  inline = {
    ...inline,
   BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
@@ -53,71 +88,7 @@ sizes.map(value=>{
   CODE: (children, { key }) => <span key={key} style={styles.code}>{children}</span>,
   SUPERSCRIPT:(children,{key})=><sup key={key}>{children}</sup>,
   SUBSCRIPT:(children,{key})=><sub key={key}>{children}</sub>,
-  STRIKETHROUGH:(children,{key})=><strike key={key}>{children}</strike>,
-  'fontfamily-Impact':(children,{key})=><span style={{fontFamily:'Impact'}} key={key}>{children}</span>,
-  'fontfamily-Arial':(children,{key})=><span style={{fontFamily:'Arial'}} key={key}>{children}</span>,
-  'fontfamily-Georgia':(children,{key})=><span style={{fontFamily:'Georgia'}} key={key}>{children}</span>,
-  'fontfamily-Tahoma':(children,{key})=><span style={{fontFamily:'Tahoma'}} key={key}>{children}</span>,
-  'fontfamily-Times New Roman':(children,{key})=><span style={{fontFamily:'Times New Roman'}} key={key}>{children}</span>,
-  'fontfamily-Verdana':(children,{key})=><span style={{fontFamily:'Verdana'}} key={key}>{children}</span>,
-  'color-rgb(97,189,109)':(children,{key})=><span style={{color:'rgb(97,189,109)'}} key={key}>{children}</span>, 
-  'color-rgb(26,188,156)':(children,{key})=><span style={{color:'rgb(26,188,156)'}} key={key}>{children}</span>, 
-  'color-rgb(84,172,210)':(children,{key})=><span style={{color:'rgb(84,172,210)'}} key={key}>{children}</span>, 
-  'color-rgb(44,130,201)':(children,{key})=><span style={{color:'rgb(44,130,201)'}} key={key}>{children}</span>,
-  'color-rgb(147,101,184)':(children,{key})=><span style={{color:'rgb(147,101,184)'}} key={key}>{children}</span>, 
-  'color-rgb(71,85,119)':(children,{key})=><span style={{color:'rgb(71,85,119)'}} key={key}>{children}</span>, 
-  'color-rgb(204,204,204)':(children,{key})=><span style={{color:'rgb(204,204,204)'}} key={key}>{children}</span>, 
-  'color-rgb(65,168,95)':(children,{key})=><span style={{color:'rgb(65,168,95)'}} key={key}>{children}</span>, 
-  'color-rgb(0,168,133)':(children,{key})=><span style={{color:'rgb(0,168,133)'}} key={key}>{children}</span>,
-  'color-rgb(61,142,185)':(children,{key})=><span style={{color:'rgb(61,142,185)'}} key={key}>{children}</span>, 
-  'color-rgb(41,105,176)':(children,{key})=><span style={{color:'rgb(41,105,176)'}} key={key}>{children}</span>, 
-  'color-rgb(85,57,130)':(children,{key})=><span style={{color:'rgb(85,57,130)'}} key={key}>{children}</span>, 
-  'color-rgb(40,50,78)':(children,{key})=><span style={{color:'rgb(40,50,78)'}} key={key}>{children}</span>, 
-  'color-rgb(0,0,0)':(children,{key})=><span style={{color:'rgb(0,0,0)'}} key={key}>{children}</span>,
-  'color-rgb(247,218,100)':(children,{key})=><span style={{color:'rgb(247,218,100)'}} key={key}>{children}</span>, 
-  'color-rgb(251,160,38)':(children,{key})=><span style={{color:'rgb(251,160,38)'}} key={key}>{children}</span>, 
-  'color-rgb(235,107,86)':(children,{key})=><span style={{color:'rgb(235,107,86)'}} key={key}>{children}</span>, 
-  'color-rgb(226,80,65)':(children,{key})=><span style={{color:'rgb(226,80,65)'}} key={key}>{children}</span>, 
-  'color-rgb(163,143,132)':(children,{key})=><span style={{color:'rgb(163,143,132)'}} key={key}>{children}</span>,
-  'color-rgb(239,239,239)':(children,{key})=><span style={{color:'rgb(239,239,239)'}} key={key}>{children}</span>, 
-  'color-rgb(255,255,255)':(children,{key})=><span style={{color:'rgb(255,255,255)'}} key={key}>{children}</span>, 
-  'color-rgb(250,197,28)':(children,{key})=><span style={{color:'rgb(250,197,28)'}} key={key}>{children}</span>, 
-  'color-rgb(243,121,52)':(children,{key})=><span style={{color:'rgb(243,121,52)'}} key={key}>{children}</span>, 
-  'color-rgb(209,72,65)':(children,{key})=><span style={{color:'rgb(209,72,65)'}} key={key}>{children}</span>,
-  'color-rgb(184,49,47)':(children,{key})=><span style={{color:'rgb(184,49,47)'}} key={key}>{children}</span>, 
-  'color-rgb(124,112,107)':(children,{key})=><span style={{color:'rgb(124,112,107)'}} key={key}>{children}</span>, 
-  'color-rgb(209,213,216)':(children,{key})=><span style={{color:'rgb(209,213,216)'}} key={key}>{children}</span>,
-
-
-  'bgcolor-rgb(97,189,109)':(children,{key})=><span style={{backgroundColor:'rgb(97,189,109)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(26,188,156)':(children,{key})=><span style={{backgroundColor:'rgb(26,188,156)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(84,172,210)':(children,{key})=><span style={{backgroundColor:'rgb(84,172,210)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(44,130,201)':(children,{key})=><span style={{backgroundColor:'rgb(44,130,201)'}} key={key}>{children}</span>,
-  'bgcolor-rgb(147,101,184)':(children,{key})=><span style={{backgroundColor:'rgb(147,101,184)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(71,85,119)':(children,{key})=><span style={{backgroundColor:'rgb(71,85,119)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(204,204,204)':(children,{key})=><span style={{backgroundColor:'rgb(204,204,204)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(65,168,95)':(children,{key})=><span style={{backgroundColor:'rgb(65,168,95)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(0,168,133)':(children,{key})=><span style={{backgroundColor:'rgb(0,168,133)'}} key={key}>{children}</span>,
-  'bgcolor-rgb(61,142,185)':(children,{key})=><span style={{backgroundColor:'rgb(61,142,185)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(41,105,176)':(children,{key})=><span style={{backgroundColor:'rgb(41,105,176)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(85,57,130)':(children,{key})=><span style={{backgroundColor:'rgb(85,57,130)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(40,50,78)':(children,{key})=><span style={{backgroundColor:'rgb(40,50,78)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(0,0,0)':(children,{key})=><span style={{backgroundColor:'rgb(0,0,0)'}} key={key}>{children}</span>,
-  'bgcolor-rgb(247,218,100)':(children,{key})=><span style={{backgroundColor:'rgb(247,218,100)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(251,160,38)':(children,{key})=><span style={{backgroundColor:'rgb(251,160,38)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(235,107,86)':(children,{key})=><span style={{backgroundColor:'rgb(235,107,86)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(226,80,65)':(children,{key})=><span style={{backgroundColor:'rgb(226,80,65)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(163,143,132)':(children,{key})=><span style={{backgroundColor:'rgb(163,143,132)'}} key={key}>{children}</span>,
-  'bgcolor-rgb(239,239,239)':(children,{key})=><span style={{backgroundColor:'rgb(239,239,239)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(255,255,255)':(children,{key})=><span style={{backgroundColor:'rgb(255,255,255)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(250,197,28)':(children,{key})=><span style={{backgroundColor:'rgb(250,197,28)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(243,121,52)':(children,{key})=><span style={{backgroundColor:'rgb(243,121,52)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(209,72,65)':(children,{key})=><span style={{backgroundColor:'rgb(209,72,65)'}} key={key}>{children}</span>,
-  'bgcolor-rgb(184,49,47)':(children,{key})=><span style={{backgroundColor:'rgb(184,49,47)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(124,112,107)':(children,{key})=><span style={{backgroundColor:'rgb(124,112,107)'}} key={key}>{children}</span>, 
-  'bgcolor-rgb(209,213,216)':(children,{key})=><span style={{backgroundColor:'rgb(209,213,216)'}} key={key}>{children}</span>
-
- 
+  STRIKETHROUGH:(children,{key})=><strike key={key}>{children}</strike>
 };
 
 
