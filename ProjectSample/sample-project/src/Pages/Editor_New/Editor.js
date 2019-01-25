@@ -30,7 +30,7 @@ class ControlledEditor extends Component {
     //   }
     render() {
       const { editorState } = this.state;
-      console.log(JSON.stringify(convertToRaw(editorState.getCurrentContent())))
+      console.log((convertToRaw(editorState.getCurrentContent())));
       let rendered=null;
       if (!editorState) {
         rendered= this.renderWarning();
@@ -47,12 +47,12 @@ class ControlledEditor extends Component {
             <Editor
             editorState={editorState}
             wrapperClassName="wrapper-class"
-                editorClassName="editor-class"
+            editorClassName="editor-class"
             toolbarClassName="toolbar-class"
             wrapperStyle={{width:'60%'}}
             editorStyle = {
                 {
-                        overflow: 'auto',
+                    overflow: 'auto',
                     boxSizing: 'border-box',
                     height: '275px',
                     border: '1px solid #F1F1F1',

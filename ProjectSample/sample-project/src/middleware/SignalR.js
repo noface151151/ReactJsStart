@@ -30,7 +30,7 @@ export const signalRRegistration = store => next => action => {
       })
       .fail(function() {
         console.log("Could not connect");
-        window.alert("Unable to start signalR connection...");
+       //window.alert("Unable to start signalR connection...");
       });
   }
   next(action);

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import redraft from 'redraft';
-
 import AtomicBlock from '../AtomicBlock/AtomicBlock';
 import List from '../List/List';
 
@@ -34,8 +33,20 @@ const styles = {
     float:'right',
   }
 };
-
-const inline = {
+const sizes=[8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96];
+let inline={};
+sizes.map(value=>{
+  const inlineSize = {
+    ['fontsize-'+value]:(children,{key})=>{
+      return(
+        <span style={{fontSize:value+'px'}} key={key}>{children}</span>
+      )
+    }
+  }
+  inline= {...inline,...inlineSize};
+})
+ inline = {
+   ...inline,
   BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
   ITALIC: (children, { key }) => <em key={key}>{children}</em>,
   UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
@@ -49,7 +60,6 @@ const inline = {
   'fontfamily-Tahoma':(children,{key})=><span style={{fontFamily:'Tahoma'}} key={key}>{children}</span>,
   'fontfamily-Times New Roman':(children,{key})=><span style={{fontFamily:'Times New Roman'}} key={key}>{children}</span>,
   'fontfamily-Verdana':(children,{key})=><span style={{fontFamily:'Verdana'}} key={key}>{children}</span>,
-
   'color-rgb(97,189,109)':(children,{key})=><span style={{color:'rgb(97,189,109)'}} key={key}>{children}</span>, 
   'color-rgb(26,188,156)':(children,{key})=><span style={{color:'rgb(26,188,156)'}} key={key}>{children}</span>, 
   'color-rgb(84,172,210)':(children,{key})=><span style={{color:'rgb(84,172,210)'}} key={key}>{children}</span>, 
@@ -76,7 +86,38 @@ const inline = {
   'color-rgb(209,72,65)':(children,{key})=><span style={{color:'rgb(209,72,65)'}} key={key}>{children}</span>,
   'color-rgb(184,49,47)':(children,{key})=><span style={{color:'rgb(184,49,47)'}} key={key}>{children}</span>, 
   'color-rgb(124,112,107)':(children,{key})=><span style={{color:'rgb(124,112,107)'}} key={key}>{children}</span>, 
-  'color-rgb(209,213,216)':(children,{key})=><span style={{color:'rgb(209,213,216)'}} key={key}>{children}</span>
+  'color-rgb(209,213,216)':(children,{key})=><span style={{color:'rgb(209,213,216)'}} key={key}>{children}</span>,
+
+
+  'bgcolor-rgb(97,189,109)':(children,{key})=><span style={{backgroundColor:'rgb(97,189,109)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(26,188,156)':(children,{key})=><span style={{backgroundColor:'rgb(26,188,156)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(84,172,210)':(children,{key})=><span style={{backgroundColor:'rgb(84,172,210)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(44,130,201)':(children,{key})=><span style={{backgroundColor:'rgb(44,130,201)'}} key={key}>{children}</span>,
+  'bgcolor-rgb(147,101,184)':(children,{key})=><span style={{backgroundColor:'rgb(147,101,184)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(71,85,119)':(children,{key})=><span style={{backgroundColor:'rgb(71,85,119)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(204,204,204)':(children,{key})=><span style={{backgroundColor:'rgb(204,204,204)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(65,168,95)':(children,{key})=><span style={{backgroundColor:'rgb(65,168,95)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(0,168,133)':(children,{key})=><span style={{backgroundColor:'rgb(0,168,133)'}} key={key}>{children}</span>,
+  'bgcolor-rgb(61,142,185)':(children,{key})=><span style={{backgroundColor:'rgb(61,142,185)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(41,105,176)':(children,{key})=><span style={{backgroundColor:'rgb(41,105,176)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(85,57,130)':(children,{key})=><span style={{backgroundColor:'rgb(85,57,130)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(40,50,78)':(children,{key})=><span style={{backgroundColor:'rgb(40,50,78)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(0,0,0)':(children,{key})=><span style={{backgroundColor:'rgb(0,0,0)'}} key={key}>{children}</span>,
+  'bgcolor-rgb(247,218,100)':(children,{key})=><span style={{backgroundColor:'rgb(247,218,100)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(251,160,38)':(children,{key})=><span style={{backgroundColor:'rgb(251,160,38)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(235,107,86)':(children,{key})=><span style={{backgroundColor:'rgb(235,107,86)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(226,80,65)':(children,{key})=><span style={{backgroundColor:'rgb(226,80,65)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(163,143,132)':(children,{key})=><span style={{backgroundColor:'rgb(163,143,132)'}} key={key}>{children}</span>,
+  'bgcolor-rgb(239,239,239)':(children,{key})=><span style={{backgroundColor:'rgb(239,239,239)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(255,255,255)':(children,{key})=><span style={{backgroundColor:'rgb(255,255,255)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(250,197,28)':(children,{key})=><span style={{backgroundColor:'rgb(250,197,28)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(243,121,52)':(children,{key})=><span style={{backgroundColor:'rgb(243,121,52)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(209,72,65)':(children,{key})=><span style={{backgroundColor:'rgb(209,72,65)'}} key={key}>{children}</span>,
+  'bgcolor-rgb(184,49,47)':(children,{key})=><span style={{backgroundColor:'rgb(184,49,47)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(124,112,107)':(children,{key})=><span style={{backgroundColor:'rgb(124,112,107)'}} key={key}>{children}</span>, 
+  'bgcolor-rgb(209,213,216)':(children,{key})=><span style={{backgroundColor:'rgb(209,213,216)'}} key={key}>{children}</span>
+
+ 
 };
 
 
