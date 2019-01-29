@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import redraft from 'redraft';
-import AtomicBlock from '../AtomicBlock/AtomicBlock';
 import List from '../List/List';
 
 
@@ -101,9 +100,9 @@ const getList = ordered =>
     </List>
   );
 
-const getAtomic = (children, { data, keys }) => data.map(
-  (item, i) => <AtomicBlock key={keys[i]} {...data[i]} />
-);
+// const getAtomic = (children, { data, keys }) => data.map(
+//   (item, i) => <AtomicBlock key={keys[i]} {...data[i]} />
+// );
 
 /**
  * Note that children can be maped to render a list or do other cool stuff
@@ -121,7 +120,7 @@ const blocks = {
   'header-four': (children, { keys,data  }) => children.map((child, i) => <h4  style={data[0]}  key={keys[i]}>{child}</h4>),
   'header-five': (children, { keys,data  }) => children.map((child, i) => <h5  style={data[0]}  key={keys[i]}>{child}</h5>),
   'header-six': (children, { keys,data  }) => children.map((child, i) => <h6  style={data[0]}  key={keys[i]}>{child}</h6>),
-  'code-block': (children, { keys,data  }) =>{const style={...styles.codeBlock,...data[0]};return(<pre key={keys[0]} style={style}>{addBreaklines(children)}</pre>)} ,
+  'code': (children, { keys,data  }) =>{const style={...styles.codeBlock,...data[0]};return(<pre key={keys[0]} style={style}>{addBreaklines(children)}</pre>)} ,
   'unordered-list-item': getList(),
   'ordered-list-item': getList(true),
 };
