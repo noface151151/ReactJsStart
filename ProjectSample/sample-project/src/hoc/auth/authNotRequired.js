@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
+import * as cookieService from '../../Service/cookieservice';
 
 const notRequiredAuthComponent = WrappedComponent => {
   const mapStateToProps = state => {
     return {
-      isAuthenticated: state.auth.token !== null
+      isAuthenticated: state.auth.isAuthenticated,
       // location:state.auth.location
     };
   };
@@ -18,18 +19,19 @@ const notRequiredAuthComponent = WrappedComponent => {
   return connect(mapStateToProps, mapDispatchToProps)(
     class extends Component {
       componentWillMount() {
-        const token = localStorage.getItem("token");
-        if (token !== null && !this.props.isAuthenticated) {
+        //const token = localStorage.getItem("token");
+       // const token = cookieService.getCookie('tokenInfo');
+        if ( !this.props.isAuthenticated) {
           this.props.onSetlocation(this.props.history.location.pathname);
           this.props.Autologin();
         }
       }
-      //   componentWillUpdate(nextProps) {
-      //     if (!nextProps.isAuthenticated) {
-      //       this.props.onSetlocation(this.props.history.location.pathname);
-      //       this.props.history.push("/Login");
-      //     }
-      //   }
+        componentWillUpdate(nextProps) {
+          if (!nextProps.isAuthenticated) {
+            this.props.onSetlocation(this.props.history.location.pathname);
+            this.props.history.push("/Login");
+          }
+        }
       render() {
         return <WrappedComponent {...this.props} />;
       }

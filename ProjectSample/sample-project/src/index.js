@@ -11,16 +11,18 @@ import registerServiceWorker from "./registerServiceWorker";
 import NetworkService from "./Service/Net-work-service";
 import authReducer from "./store/reducers/auth";
 import notifyReducer from './store/reducers/notify';
+import permissionReducer from './store/reducers/permission';
 import * as SignalRMiddleware from './middleware/SignalR'
 
-const composeEnhancers = compose
+const composeEnhancers = compose;
   // process.env.NODE_ENV === "development"
   //   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
   //   : null || compose;
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  notify:notifyReducer
+  notify:notifyReducer,
+  permission:permissionReducer
 });
 const store = createStore(
   rootReducer,

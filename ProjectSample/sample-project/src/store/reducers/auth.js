@@ -15,8 +15,8 @@ const authSuccess = (state, action) => {
     token: action.token,
     username: action.username,
     loading: false,
-    isAuthenticated: true,
-    permision: action.permision
+     isAuthenticated: true,
+    // permision: action.permision
   };
 };
 

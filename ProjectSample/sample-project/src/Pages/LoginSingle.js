@@ -31,10 +31,10 @@ class LoginSingle extends Component {
       return;
     }
   
-    const token = localStorage.getItem("token");
-    if (token !== null) {
-      this.props.Autologin();
-    }
+    // const token = localStorage.getItem("token");
+    // if (token !== null) {
+    //   this.props.Autologin();
+    // }
   }
   // componentDidUpdate(){
   //   console.log('componentDidUpdate')

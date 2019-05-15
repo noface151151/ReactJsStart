@@ -15,6 +15,7 @@ export const signalRRegistration = store => next => action => {
     action.type === actionType.AUTH_AUTOLOGIN_SUCCESS ||
     action.type === actionType.AUTH_SUCCESS
   ) {
+   // console.log(action)
     let NotifyProxy = SignalrConnection.createHubProxy("MyHub");
 
     NotifyProxy.on("broadcastNotify", function(totalNotif) {
@@ -22,8 +23,8 @@ export const signalRRegistration = store => next => action => {
     });
 
     SignalrConnection.stop();
-    const token = localStorage.getItem("token");
-    SignalrConnection.qs = { Token: token };
+    const username = action.username;
+    SignalrConnection.qs = { username: username };
     SignalrConnection.start()
       .done(function() {
         console.log("Now connected, connection ID=" + SignalrConnection.id);
