@@ -1,0 +1,17 @@
+.navexample-enter {
+    opacity: 0;
+  }
+  
+  .navexample-enter.navexample-enter-active {
+    opacity: 1;
+    transition: opacity 1s;
+  }
+  
+  .navexample-leave {
+    opacity: 1;
+  }
+  
+  .navexample-leave.navexample-leave-active {
+    opacity: 0;
+    transition: opacity 1s;
+  }

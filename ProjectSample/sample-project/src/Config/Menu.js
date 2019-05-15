@@ -19,7 +19,8 @@ const Menu = [
     IsHome:true,
     IsMenuCategory: false,
     isHasSubmenu: false,
-    subMenu: null
+    subMenu: null,
+    IsExact:true
   },
   {
     id:shortid.generate(),
@@ -37,7 +38,7 @@ const Menu = [
       },
       {
         id:shortid.generate(),
-        subMenuPath: "/DanhMuc",
+        subMenuPath: "/Them",
         display: "Thêm mới"
       }
     ]
